@@ -1,0 +1,165 @@
+{% extends 'userhome.html' %}
+
+{% block sectioncontent %}
+
+<script>
+function fetchsubcat(c)
+{
+	var xhttp=new XMLHttpRequest()
+	xhttp.open("GET","http://localhost:8000/user/fetchsubcat?cnm="+c,true)
+	xhttp.send()
+	
+	xhttp.onreadystatechange=function(){
+		if(xhttp.readyState==4 && xhttp.status==200)		
+		{
+			document.getElementById('response').innerHTML=xhttp.responseText			
+		}
+	}
+}
+
+
+function fetchcity(s)
+{
+	var xhttp=new XMLHttpRequest()
+	xhttp.open("GET","http://localhost:8000/user/fetchcity?snm="+s,true)
+	//xhttp.open("GET","https://jsonplaceholder.typicode.com/posts",true)
+	
+	xhttp.send()
+	
+	xhttp.onreadystatechange=function(){
+		if(xhttp.readyState==4 && xhttp.status==200)		
+		{
+			document.getElementById('city').innerHTML=xhttp.responseText			
+		}
+	}
+}
+
+function fetchlocality(city_name)
+{
+	var xhttp=new XMLHttpRequest()
+	xhttp.open("GET","http://localhost:8000/user/fetchlocality?city_name="+city_name,true)
+	xhttp.send()
+	
+	xhttp.onreadystatechange=function(){
+		if(xhttp.readyState==4 && xhttp.status==200)		
+		{
+			document.getElementById('locality').innerHTML=xhttp.responseText			
+		}
+	}
+}
+</script>
+
+
+            
+<h1>Add Location Here!!!</h1>
+<font style="font-size:20px" color="orange">{{output}}</font>
+<form method="post" action={{user_curl}}addlocation/ enctype="multipart/form-data" >
+{% csrf_token %}
+<table class="table table-bordered">
+<tr>
+<td colspan="2">
+<center>
+<h2>Add Location Here!!!</h2>           
+</center>
+</td>
+</tr>
+<tr>
+<td>Title</td>
+<td><input type="text" name="title" placeholder="Enter location title"/></td>
+</tr>
+<tr>
+<td>Category</td>
+<td>
+
+<select name="category" onchange="fetchsubcat(this.value)">
+<option>Select category</option>
+{% for row in clist %}
+<option>{{row.catnm}}</option>
+{% endfor %}
+</select>
+
+</td>
+</tr>
+<tr>
+<td>Sub Category</td>
+<td>
+<select name="subcategory" id="response">
+<option>Select sub category</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td>Description</td>
+<td><textarea name="description" placeholder="Enter location description"></textarea></td>
+</tr>
+
+<tr>
+<td>Location Images</td>
+<td>
+
+Image 1 : <input type="file" name="file1" required/><br><br>	
+Image 2 : <input type="file" name="file2" /><br><br>
+Image 3 : <input type="file" name="file3" /><br><br>
+Image 4 : <input type="file" name="file4" />
+
+</td>
+</tr>
+
+<tr>
+<td>Address</td>
+<td><textarea name="address" placeholder="Enter location address"></textarea></td>
+</tr>
+
+<tr>
+<td>State</td>
+<td>
+<select name="state" onchange="fetchcity(this.value)">
+<option>Select state</option>
+{% for x in slist %}
+<option>{{x}}</option>
+{% endfor %}
+</select>
+</td>
+</tr>
+
+
+<tr>
+<td>City</td>
+<td>
+<select name="city" id="city" onchange="fetchlocality(this.value)">
+<option>Select city</option>
+</select>
+</td>
+</tr>
+
+
+<tr>
+<td>Locality</td>
+<td>
+<select name="locality" id="locality">
+<option>Select locality</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<input type="submit" name="s" value="Enter Location"/>
+</center>
+</td>
+</tr>
+
+</table>
+
+</form> 
+
+
+
+            
+{% endblock %}
+
+
+
+

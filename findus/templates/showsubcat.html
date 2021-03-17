@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block sectioncontent %}
+<style>
+#mydiv
+{
+	height:auto;
+	width:800px;
+}
+.mydiv_part
+{
+	height:150px;
+	width:200px;
+	float:left;
+}	
+</style>
+            
+<h3>Sub Category >> {{cnm}}</h3>            
+<div id="mydiv">
+{% for row in sclist %}
+<a href={{curl}}showlocation?scnm={{row.subcatnm}}  >	
+	<div class="mydiv_part">
+	<center>
+	<img src={{media_url}}{{row.subcaticonnm}} height="70" width="100" />
+	<br><br>
+	<b>{{row.subcatnm}}</b>	
+	</center>
+	</div>
+</a>	
+{% endfor %}
+</div>
+           
+{% endblock %}
+
+

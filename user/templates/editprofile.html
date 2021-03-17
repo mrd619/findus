@@ -1,0 +1,69 @@
+{% extends 'userhome.html' %}
+
+{% block sectioncontent %}
+
+
+<h1>Edit Profile Here!!!</h1>            
+<form method="post" action={{user_curl}}editprofile/ >
+{% csrf_token %}
+<table>
+<tr>
+<td>Name</td>
+<td><input type="text" name="name" placeholder="Enter name" value="{{userDetails.name}}" /></td>
+</tr>
+<tr>
+<td>Username</td>
+<td><input readonly type="text" name="username" placeholder="Enter username" value="{{userDetails.username}}"/></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type="password" name="password" placeholder="Enter password" value="{{userDetails.password}}"/></td>
+</tr>
+<tr>
+<td>Mobile</td>
+<td><input type="text" name="mobile" placeholder="Enter mobile number" value="{{userDetails.mobile}}"/></td>
+</tr>
+<tr>
+<td>Address</td>
+<td><textarea name="address" placeholder="Enter address">{{userDetails.address}}</textarea></td>
+</tr>
+<tr>
+<td>City</td>
+<td>
+<select name="city">
+<option>{{userDetails.city}}</option>
+<option>Indore</option>
+<option>Bhopal</option>
+<option>Ujjain</option>
+</select>
+</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td>
+<input type="radio" name="gender" value="male"
+{% if userDetails.gender == 'male' %}
+checked
+{% endif %}
+>Male
+&nbsp;&nbsp;
+<input type="radio" name="gender" value="female"
+{% if userDetails.gender == 'female' %}
+checked
+{% endif %}
+/> Female
+</td>
+</tr>
+<tr>
+<td><input type="submit"  value="Save" /></td>
+</tr>
+</table>
+</form>
+
+
+            
+{% endblock %}
+
+
+
+

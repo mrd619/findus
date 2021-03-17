@@ -1,0 +1,82 @@
+{% extends 'userhome.html' %}
+
+{% block sectioncontent %}
+
+<center>            
+<h1>View And Manage Users Here</h1>            
+
+<table class="table table-bordered">
+<tr>
+<th>LocationId</th>
+<th>Title</th>
+<th>Subcategory</th>
+<th>Location Images</th>
+<th>Address</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for row in locationdetails %}
+<tr>
+<td>{{row.locationid}}</td>
+<td>{{row.title}}</td>
+<td>{{row.subcategory}}</td>
+<td>
+<img style="border:2px solid black;" src={{media_url}}{{row.file1}} height='30' width='30'/>
+&nbsp;&nbsp;
+<img style="border:2px solid black;" src={{media_url}}{{row.file2}} height='30' width='50'/>
+&nbsp;&nbsp;
+<img style="border:2px solid black;" src={{media_url}}{{row.file3}} height='30' width='30'/>
+&nbsp;&nbsp;
+<img style="border:2px solid black;" src={{media_url}}{{row.file4}} height='30' width='30'/>
+
+</td>
+<td>{{row.address}}</td>
+<td>
+{% if row.status %}	
+<a style="color:green;" href="">Verified</a>
+{% else %}	
+<a style="color:red;" href="">Not Verified</a>
+{% endif %}
+</td>
+<td>
+{% if row.status == False %}	
+  <!-- PayPal payment form for displaying the buy button -->
+                <form action="{{PAYPAL_URL}}" method="post">
+                    <!-- Identify your business so that you can collect the payments. -->
+                    <input type="hidden" name="business" value="{{PAYPAL_ID}}">
+					
+                    <!-- Specify a Buy Now button. -->
+                    <input type="hidden" name="cmd" value="_xclick">
+					
+                    <!-- Specify details about the item that buyers will purchase. -->
+                    <input type="hidden" name="item_name" value="Verify Location Charges">
+                    <input type="hidden" name="item_number" value="{{row.locationid}}">
+                    <input type="hidden" name="amount" value="250">
+                    <input type="hidden" name="currency_code" value="USD">
+					
+                    <!-- Specify URLs -->
+                    <input type="hidden" name="return" value={{user_curl}}payment?locationid={{row.locationid}}&sunm={{sunm}}&price=250 > 
+                    <input type="hidden" name="cancel_return" value="{{user_curl}}cancel/">
+					
+                    <!-- Display the payment button. -->
+                    <input type="image" name="submit" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif">
+                </form>
+            </div>
+        </div>
+
+
+{% endif %}	
+
+</td>
+</tr>
+{% endfor %}
+</table>
+            
+</center>
+
+{% endblock %}
+
+
+
+

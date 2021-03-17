@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+
+{% block sectioncontent %}
+<script>
+function fetchcity(s)
+{
+	var xhttp=new XMLHttpRequest()
+	xhttp.open("GET","http://localhost:8000/fetchcity?snm="+s,true)
+	//xhttp.open("GET","https://jsonplaceholder.typicode.com/posts",true)
+	
+	xhttp.send()
+	
+	xhttp.onreadystatechange=function(){
+		if(xhttp.readyState==4 && xhttp.status==200)		
+		{
+			document.getElementById('city').innerHTML=xhttp.responseText			
+		}
+	}
+}
+
+function fetchlocality(city_name)
+{
+	var xhttp=new XMLHttpRequest()
+	xhttp.open("GET","http://localhost:8000/fetchlocality?city_name="+city_name,true)
+	xhttp.send()
+	
+	xhttp.onreadystatechange=function(){
+		if(xhttp.readyState==4 && xhttp.status==200)		
+		{
+			document.getElementById('locality').innerHTML=xhttp.responseText			
+		}
+	}
+}	
+
+function fetchlocation(locality_name)
+{
+	var subcategory=document.getElementById('subcategory').value
+	var xhttp=new XMLHttpRequest()
+	xhttp.open("GET","http://localhost:8000/fetchlocationfilter?locality_name="+locality_name+"&subcategory_name="+subcategory,true)
+	xhttp.send()
+	
+	xhttp.onreadystatechange=function(){
+		if(xhttp.readyState==4 && xhttp.status==200)		
+		{
+			document.getElementById('filterresult').innerHTML=xhttp.responseText			
+		}
+	}
+
+}
+
+</script>
+<style>
+#mydiv
+{
+	height:auto;
+	width:800px;
+}
+.mydiv_part
+{
+	height:150px;
+	width:200px;
+	float:left;
+}	
+</style>
+
+<table border="2" class="table table-bordered">
+<tr>
+<td>
+<h3>Filter Location Here!!!</h3>
+
+<select name="state" onchange="fetchcity(this.value)">
+<option>Select state</option>
+{% for x in slist %}
+<option>{{x}}</option>
+{% endfor %}
+</select>
+
+&nbsp;-&nbsp;
+
+<select name="city" id="city" onchange="fetchlocality(this.value)">
+<option>Select city</option>
+</select>
+
+
+&nbsp;-&nbsp;
+
+
+<input type="hidden" id="subcategory" value={{scnm}} />
+<select name="locality" id="locality" onchange="fetchlocation(this.value)">
+<option>Select locality</option>
+</select>
+
+
+</td>	
+</tr>	
+</table>
+            
+<h3>Search Locations for >> {{scnm}}</h3>            
+
+<div id="filterresult">
+{% for row in locationlist %}
+<table height="100" class="table table-bordered">
+<tr>
+	<td rowspan="3" width="30%" >
+		<center>
+		<img src={{media_url}}{{row.file1}} height="100" width="100">
+	</center>
+	</td>
+	<td><b>Title : </b> {{row.title}}</td>
+</tr>	
+<tr>
+	<td><b>Description : </b>{{row.description}}</td>
+</tr>
+<tr>
+<td>
+<b>Address : </b> {{ row.address }}
+<br>
+<a style="color:blue;" href='' >Read more...</a>
+</td>
+</tr>
+</table>
+<div style="height:2px;background-color:black;"></div>
+<br/>
+{% endfor %}           
+</div>
+
+{% endblock %}
+
+

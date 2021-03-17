@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% block sectioncontent %}
+            
+<h1>Register here!!!</h1>            
+<font color="orange">{{output}}</font>
+<form method="post" action={{curl}}register/ >
+{% csrf_token %}
+<table>
+<tr>
+<td>Name</td>
+<td><input type="text" name="name" placeholder="Enter name"/></td>
+</tr>
+<tr>
+<td>Username</td>
+<td><input type="text" name="username" placeholder="Enter username"/></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type="password" name="password" placeholder="Enter password"/></td>
+</tr>
+<tr>
+<td>Mobile</td>
+<td><input type="text" name="mobile" placeholder="Enter mobile number"/></td>
+</tr>
+<tr>
+<td>Address</td>
+<td><textarea name="address" placeholder="Enter address"></textarea></td>
+</tr>
+<tr>
+<td>City</td>
+<td>
+<select name="city">
+<option>Select City</option>
+<option>Indore</option>
+<option>Bhopal</option>
+<option>Ujjain</option>
+</select>
+</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td>
+<input type="radio" name="gender" value="male"/>Male
+&nbsp;&nbsp;
+<input type="radio" name="gender" value="female"/> Female
+</td>
+</tr>
+<tr>
+<td><input type="submit"  value="Register" /></td>
+</tr>
+</table>
+</form>
+
+
+
+            
+{% endblock %}
+
+

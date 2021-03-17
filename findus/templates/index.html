@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block sectioncontent %}
+<style>
+#mydiv
+{
+	height:auto;
+	width:800px;
+}
+.mydiv_part
+{
+	height:150px;
+	width:200px;
+	float:left;
+}	
+</style>
+            
+<h1>Welcome to FindUs?</h1>            
+<h3>Category >> To Find Locations</h3>            
+
+<div id="mydiv">
+{% for row in clist %}
+<a href={{curl}}showsubcat?cnm={{row.catnm}} >	
+	<div class="mydiv_part">
+	<center>
+	<img src={{media_url}}{{row.caticonnm}} height="70" width="100" />
+	<br><br>
+	<b>{{row.catnm}}</b>	
+	</center>
+	</div>
+</a>	
+{% endfor %}
+</div>
+           
+{% endblock %}
+
+
